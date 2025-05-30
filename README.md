@@ -32,3 +32,24 @@ kubectl get pods,services -n kube-system
 ```
 
 you switch context into the `kube-system` namespace, which is where Kubernetes itself runs its core components.
+
+
+
+### Reflection on Rolling Update & Kubernetes Manifest File
+
+1. Difference between Rolling Update and Recreate deployment strategy
+
+The Rolling Update strategy allows you to update your application without downtime by incrementally updating Pods with new versions. It ensures that a certain number of Pods are always available during the update process. In contrast, the Recreate strategy stops all existing Pods before starting new ones, which can lead to downtime as there is a period when no Pods are available to serve requests.
+
+2. Try deploying the Spring Petclinic REST using Recreate deployment strategy and document your attempt
+
+I exported the existing Deployment into a file named deployment-recreate.yaml using by running command `kubectl get deployment spring-petclinic-rest -o yaml > deployment-recreate.yaml`. I then modified the file in part stratey section to change the deployment strategy to Recreate. Finally, I applied the new manifest withthe command `kubectl apply -f deployment-recreate.yaml`.
+
+3. Prepare different manifest files for executing Recreate deployment strategy
+
+I created a manifest file named `deployment-recreate.yml` for the Recreate deployment strategy. 
+
+
+4. Benefits of using Kubernetes manifest files
+
+Kubernetes manifest files provide a declarative way to define the desired state of your application. They allow you to version control your configurations, making it easier to track changes and roll back if necessary. Using manifest files simplifies the deployment process, as you can apply multiple resources at once with a single command (`kubectl apply -f`). This is more efficient than manually creating or updating resources one by one, reducing the risk of human error and ensuring consistency across deployments.
